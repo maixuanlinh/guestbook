@@ -57,7 +57,7 @@ The application has been designed with a simple, user-friendly interface, focusi
 
 1. **Clone the Repository**:
     ```bash
-    git clone https://github.com/yourusername/guestbook.git
+    git clone https://github.com/maixuanlinh/guestbook.git
     ```
 2. **Install Dependencies**:
     ```bash
