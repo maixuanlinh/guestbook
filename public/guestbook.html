@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guestbook Messages</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <h2 class="text-center">Guestbook Messages</h2>
+    <table class="table table-striped mt-3">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Country</th>
+          <th>Date</th>
+          <th>Message</th>
+        </tr>
+      </thead>
+      <tbody id="messagesTable">
+        <!-- Rows will be populated by JavaScript -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    // Fetch the JSON data from the server and render it in the table
+    fetch('/guestbook')
+      .then(response => response.json())
+      .then(messages => {
+        const tableBody = document.getElementById('messagesTable');
+        messages.forEach(msg => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${msg.id}</td>
+            <td>${msg.username}</td>
+            <td>${msg.country}</td>
+            <td>${new Date(msg.date).toLocaleString()}</td>
+            <td>${msg.message}</td>
+          `;
+          tableBody.appendChild(row);
+        });
+      })
+      .catch(error => console.error('Error loading messages:', error));
+  </script>
+</body>
+</html>

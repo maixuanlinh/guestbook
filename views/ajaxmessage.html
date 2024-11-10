@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AJAX Message Submission</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <h2>Add a Message via AJAX</h2>
+    <form id="ajaxForm">
+      <div class="form-group">
+        <label for="username">Name:</label>
+        <input type="text" name="username" id="username" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="country">Country:</label>
+        <input type="text" name="country" id="country" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="message">Message:</label>
+        <textarea name="message" id="message" class="form-control" rows="4" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Send via AJAX</button>
+    </form>
+    <div class="mt-4">
+      <h3>Messages</h3>
+      <table class="table table-striped mt-3">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Country</th>
+            <th>Date</th>
+            <th>Message</th>
+          </tr>
+        </thead>
+        <tbody id="messagesTable">
+          <!-- Messages will be appended here by JavaScript -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Function to render messages in the table
+    function renderMessages(messages) {
+      const messagesTable = document.getElementById('messagesTable');
+      messagesTable.innerHTML = ''; // Clear existing content
+      messages.forEach(msg => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${msg.id}</td>
+          <td>${msg.username}</td>
+          <td>${msg.country}</td>
+          <td>${new Date(msg.date).toLocaleString()}</td>
+          <td>${msg.message}</td>
+        `;
+        messagesTable.appendChild(row);
+      });
+    }
+
+    // Fetch and display messages on initial page load
+    fetch('/guestbook')
+      .then(response => response.json())
+      .then(messages => {
+        renderMessages(messages); // Display the fetched messages
+      })
+      .catch(error => console.error('Error fetching initial messages:', error));
+
+    // Handle form submission with AJAX
+    document.getElementById('ajaxForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent the form from submitting normally
+
+      // Collect form data
+      const data = {
+        username: document.getElementById('username').value,
+        country: document.getElementById('country').value,
+        message: document.getElementById('message').value
+      };
+
+      // Send AJAX request to server
+      fetch('/ajaxmessage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(messages => {
+        renderMessages(messages); // Update the table with the new list of messages
+        document.getElementById('ajaxForm').reset(); // Clear the form fields
+      })
+      .catch(error => console.error('Error:', error));
+    });
+  </script>
+</body>
+</html>
