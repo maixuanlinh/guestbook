@@ -9,8 +9,8 @@
 6. [Usage](#usage)
 ---
 ## Links: 
-Video Link: https://drive.google.com/file/d/1PKaVPecZj4wFQIbBUDwJb1jR7meF0Zx1/view?usp=drive_link
-Live Website deployed on Render: https://guestbook-by7p.onrender.com
+- Video Link: https://drive.google.com/file/d/1PKaVPecZj4wFQIbBUDwJb1jR7meF0Zx1/view?usp=drive_link
+- Live Website deployed on Render: https://guestbook-by7p.onrender.com
 
 ## Project Overview
 
